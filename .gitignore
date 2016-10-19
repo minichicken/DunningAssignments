@@ -1,3 +1,7 @@
+/.idea/libraries
+.DS_Store
+.externalNativeBuild
+
 # Built application files
 *.apk
 *.ap_
