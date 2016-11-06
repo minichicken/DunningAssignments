@@ -1,27 +1,43 @@
 package pe.kr.crasy.dunningassignments;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import io.reactivex.Observable;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
+
+    private View drawView;
+    private WindowManager windowManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +46,18 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show());
-
-
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AssignmentsEditActivity.class);
+                startActivity(intent);
+            }
+        });
+        /*
+        fab.setOnClickListener(view -> Snackbar
+                .make(view, "Replace with your own action (feat. lam da)", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show());
+        */
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
             this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -41,8 +66,31 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        TextView textView = (TextView)findViewById(R.id.textView);
-        Observable.just("hello hell rxjava").subscribe(textView::setText);
+
+        String datas[] = {"egege","Gege","fdasf","sdafasd"};
+
+        mRecyclerView = (RecyclerView)findViewById(R.id.assignments);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new AssignmentsManagerAdapter(datas);
+        mRecyclerView.setAdapter(mAdapter);
+
+
+        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        drawView = inflater.inflate(R.layout.assignments_alter_top, null);
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
+                WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+                PixelFormat.TRANSPARENT);
+        windowManager = (WindowManager)getSystemService(WINDOW_SERVICE);
+        windowManager.addView(drawView, params);
+
+
+
+
     }
 
     @Override
@@ -102,3 +150,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 }
+
+/*
+* http://itmir.tistory.com/548
+* https://github.com/taehwandev/Android-BlogExample/blob/master/2016-05-08-Android-Overlay-Permission-Example/src/main/java/tech/thdev/android_overlay_permission_example/MainActivity.java
+* http://thdev.tech/androiddev/2016/05/08/Android-Overlay-Permission.html
+*/
+
