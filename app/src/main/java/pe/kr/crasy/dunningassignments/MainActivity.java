@@ -27,12 +27,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import java.util.Date;
+
 import io.reactivex.Observable;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private AssignmentsManagerAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
 
@@ -46,12 +48,9 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AssignmentsEditActivity.class);
-                startActivity(intent);
-            }
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, AssignmentsEditActivity.class);
+            startActivity(intent);
         });
         /*
         fab.setOnClickListener(view -> Snackbar
@@ -67,14 +66,19 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        String datas[] = {"egege","Gege","fdasf","sdafasd"};
 
         mRecyclerView = (RecyclerView)findViewById(R.id.assignments);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new AssignmentsManagerAdapter(datas);
+        mAdapter = new AssignmentsManagerAdapter();
         mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
 
 
         LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -102,7 +106,7 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -124,6 +128,7 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+   */
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -138,6 +143,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
 
         } else if (id == R.id.nav_share) {
 
