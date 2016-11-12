@@ -11,6 +11,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="pe.kr.crasy.dunningassignments.AssignmentsEditActivity"
-    tools:showIn="@layout/activity_assignments_edit">
+    tools:showIn="@layout/edit_assignments_activity">
 
 </RelativeLayout>

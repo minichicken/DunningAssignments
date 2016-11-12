@@ -17,24 +17,8 @@ import java.util.Date;
  */
 
 class AssignmentsManagerAdapter
-        extends RecyclerView.Adapter<AssignmentsManagerAdapter.ViewHolder>
-        implements RecyclerView.OnItemTouchListener{
+        extends RecyclerView.Adapter<AssignmentsManagerAdapter.ViewHolder> {
     private ArrayList<AssignmentManagerItem> mAssignmentsManagerItem = new ArrayList<>();
-
-    @Override
-    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-    }
-
-    @Override
-    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-    }
 
     void addItem(Date date, String title, Date deadline, String location){
         AssignmentManagerItem Item = new AssignmentManagerItem();
@@ -53,9 +37,9 @@ class AssignmentsManagerAdapter
         TextView assignment_location;
         ViewHolder(View itemView) {
             super(itemView);
-            assignment_date = (TextView)itemView.findViewById(R.id.assignment_date);
-            assignment_day = (TextView)itemView.findViewById(R.id.assignment_day);
-            assignment_title = (TextView)itemView.findViewById(R.id.assignment_title);
+            assignment_date     = (TextView)itemView.findViewById(R.id.assignment_date);
+            assignment_day      = (TextView)itemView.findViewById(R.id.assignment_day);
+            assignment_title    = (TextView)itemView.findViewById(R.id.assignment_title);
             assignment_deadline = (TextView)itemView.findViewById(R.id.assignment_deadline);
             assignment_location = (TextView)itemView.findViewById(R.id.assignment_location);
         }
