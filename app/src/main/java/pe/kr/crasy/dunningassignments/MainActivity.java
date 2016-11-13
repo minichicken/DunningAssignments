@@ -26,10 +26,7 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private AssignmentsManagerAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
-
-    private View drawView;
-    private WindowManager windowManager;
+    private Intent assignmentsAlarm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,21 +67,13 @@ public class MainActivity extends AppCompatActivity
         mAdapter.addItem(new Date(),"hell", new Date(), "world");
         mAdapter.addItem(new Date(),"hell", new Date(), "world");
 
+        assignmentsAlarm = new Intent(this, AssignmentsAlarmService.class);
+    }
 
-        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        drawView = inflater.inflate(R.layout.assignments_alter_top, null);
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
-                WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
-                PixelFormat.TRANSPARENT);
-        windowManager = (WindowManager)getSystemService(WINDOW_SERVICE);
-        windowManager.addView(drawView, params);
-
-
-
-
+    @Override
+    public void onPause(){
+        super.onPause();
+        startService(new Intent(this, AssignmentsAlarmService.class));
     }
 
     @Override
