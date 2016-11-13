@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="assignments_save">저장</string>
     <string name="title_activity_recycler_view">RecyclerView</string>
     <string name="title_activity_hell_view">HellView</string>
     <string name="title_activity_settings">SettingsActivity</string>
