@@ -3,6 +3,8 @@
     package="pe.kr.crasy.dunningassignments">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
 
     <application
         android:allowBackup="true"
@@ -29,9 +31,19 @@
             android:label="@string/title_activity_settings" />
 
         <service
-            android:name=".AssignmentsAlarmService"
+            android:name=".Alarm.AssignmentsAlarmService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
+
+        <receiver
+            android:name=".Alarm.AssignmentsAlarmReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SCREEN_ON"/>
+                <action android:name="android.intent.action.SCREEN_OFF"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/assignment_alter_size">
+
+    <TextView
+        android:text="프로그래밍 과제"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/assignment_alter_title"
+        android:layout_weight="1"
+        android:layout_gravity="right"
+        android:textSize="30sp" />
+
+    <TextView
+        android:text="7일 남음"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/assignment_alter_date"
+        android:layout_weight="1"
+        android:layout_gravity="right"
+        android:textSize="18sp" />
+</LinearLayout>

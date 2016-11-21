@@ -16,6 +16,8 @@ import android.view.MenuItem;
 
 import java.util.Date;
 
+import pe.kr.crasy.dunningassignments.Alarm.AssignmentsAlarmService;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private RecyclerView mRecyclerView;
@@ -82,6 +84,16 @@ public class MainActivity extends AppCompatActivity
     public void onPause(){
         super.onPause();
         startService(new Intent(this, AssignmentsAlarmService.class));
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
     }
 
     @Override
