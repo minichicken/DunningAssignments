@@ -63,6 +63,21 @@ public class MainActivity extends AppCompatActivity
         mAdapter.addItem(new Date(),"hell", new Date(), "world");
         mAdapter.addItem(new Date(),"hell", new Date(), "world");
         mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
+        mAdapter.addItem(new Date(),"hell", new Date(), "world");
 
         assignmentsAlarm = new Intent(this, AssignmentsAlarmService.class);
 

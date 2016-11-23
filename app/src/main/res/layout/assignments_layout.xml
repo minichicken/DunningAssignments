@@ -25,7 +25,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:text="18"
+                    android:text="@string/_18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/assignment_date"
@@ -33,7 +33,7 @@
                     android:textColor="@color/colorAccent" />
 
                 <TextView
-                    android:text="date"
+                    android:text="@string/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/assignment_day"
@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
-                    android:text="Title"
+                    android:text="@string/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/assignment_title"
@@ -57,16 +57,20 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
+                        android:contentDescription="@string/no_image"
                         android:layout_width="19dp"
                         android:layout_height="18dp"
                         card_view:srcCompat="@android:drawable/ic_menu_recent_history"/>
 
                     <TextView
-                        android:text="DeadLine"
+                        android:text="@string/deadline"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
-                        android:id="@+id/assignment_deadline"/>
+
+                        android:id="@+id/assignment_deadline">
+
+                    </TextView>
                 </LinearLayout>
 
                 <LinearLayout
@@ -77,21 +81,18 @@
                     <ImageView
                         android:layout_width="19dp"
                         android:layout_height="17dp"
+                        android:contentDescription="@string/no_image"
                         card_view:srcCompat="@android:drawable/ic_menu_mylocation"/>
 
                     <TextView
-                        android:text="Location"
+                        android:text="@string/location"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:id="@+id/assignment_location"/>
 
                 </LinearLayout>
-
             </LinearLayout>
-
         </LinearLayout>
-
     </android.support.v7.widget.CardView>
-
 </LinearLayout>

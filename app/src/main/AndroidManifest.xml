@@ -11,14 +11,14 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="false">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -32,18 +32,8 @@
 
         <service
             android:name=".Alarm.AssignmentsAlarmService"
-            android:enabled="true"
-            android:exported="true" />
+            android:enabled="true" />
 
-        <receiver
-            android:name=".Alarm.AssignmentsAlarmReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.SCREEN_ON"/>
-                <action android:name="android.intent.action.SCREEN_OFF"/>
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

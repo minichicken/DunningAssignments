@@ -18,7 +18,6 @@ import java.util.Date;
 import pe.kr.crasy.dunningassignments.R;
 
 public class AssignmentsAlarmService extends Service {
-
     WindowManager windowManager;
     WindowManager.LayoutParams params;
     View drawView;
@@ -35,17 +34,35 @@ public class AssignmentsAlarmService extends Service {
     @Override
     public void onCreate(){
         super.onCreate();
-        LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater)getApplicationContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         drawView = inflater.inflate(R.layout.assignments_alter_top, null);
-        windowManager = (WindowManager)drawView.getContext().getSystemService(Context.WINDOW_SERVICE);
-        windowManager.addView(drawView, params);
+        windowManager = (WindowManager)getApplicationContext()
+                .getSystemService(Context.WINDOW_SERVICE);
 
         RecyclerView recyclerView = (RecyclerView)drawView.findViewById(R.id.assignment_alter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(drawView.getContext());
-        AssignmentsAlarmAdapter adapter = new AssignmentsAlarmAdapter(windowManager);
+        AssignmentsAlarmAdapter adapter = new AssignmentsAlarmAdapter();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnItemTouchListener(
+                new AssignmentsAlarmOnItemClickListener(
+                        drawView.getContext(),
+                        recyclerView,
+                        new AssignmentsAlarmOnItemClickListener.OnItemClickListener(){
+                            @Override
+                            public void onItemClick(View view, int postion) {
+                                if(drawView.getWindowToken() != null){
+                                    windowManager.removeView(drawView);
+                                }
+                            }
+                            @Override
+                            public void onItemLongClick(View view, int position) {
+
+                            }
+                        }));
 
         adapter.addItem("hell", new Date(), "#ffffff");
         adapter.addItem("hell", new Date(), "#000000");
@@ -53,10 +70,11 @@ public class AssignmentsAlarmService extends Service {
         adapter.addItem("hell", new Date(), "#000000");
         adapter.addItem("hell", new Date(), "#000000");
 
+
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
+        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         registerReceiver(receiver, intentFilter);
-
     }
 
     @Override
@@ -79,13 +97,22 @@ public class AssignmentsAlarmService extends Service {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
             if(action.equals(Intent.ACTION_SCREEN_ON)){
-                windowManager.addView(drawView, params);
+                if(drawView.getWindowToken() == null){
+                    windowManager.addView(drawView, params);
+                }
+            }
+
+            if(action.equals(Intent.ACTION_SCREEN_OFF)){
+                if(drawView.getWindowToken() == null){
+                    windowManager.addView(drawView, params);
+                }
             }
         }
     };

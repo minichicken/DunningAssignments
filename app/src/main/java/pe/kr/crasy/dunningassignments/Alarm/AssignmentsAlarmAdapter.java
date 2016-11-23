@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,16 +23,15 @@ import pe.kr.crasy.dunningassignments.R;
 
 class AssignmentsAlarmAdapter extends RecyclerView.Adapter<AssignmentsAlarmAdapter.ViewHolder> {
     private ArrayList<AssignmentsAlarmItem> mItem = new ArrayList<>();
-    private WindowManager wManager;
+    private View.OnClickListener mOnclickListener = new OnCustomClickListener();
 
-    AssignmentsAlarmAdapter(WindowManager windowManager) {
-        this.wManager = windowManager;
-    }
+    AssignmentsAlarmAdapter() {}
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.assignments_alter_top_layout, parent, false);
+        view.setOnClickListener(mOnclickListener);
         return new ViewHolder(view);
     }
 
@@ -39,9 +39,18 @@ class AssignmentsAlarmAdapter extends RecyclerView.Adapter<AssignmentsAlarmAdapt
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.itemView.setBackgroundColor(mItem.get(position).getColor());
         holder.title.setText(mItem.get(position).getTitle());
-        holder.date.setText(mItem.get(position).getDate().toString());
+
+        Date start = new Date();
+
+        Date end = mItem.get(position).getDate();
+        long fin = (end.getTime() - start.getTime())/(24 * 60 * 60 * 1000);
+
+        holder.date.setText(String.valueOf(fin) + "일 남았습니다.");
         DisplayMetrics metrics = holder.itemView.getContext().getResources().getDisplayMetrics();
-        holder.layout.setLayoutParams(new LinearLayout.LayoutParams(metrics.widthPixels/2, WindowManager.LayoutParams.WRAP_CONTENT));
+
+        holder.layout.setLayoutParams(new LinearLayout.LayoutParams(
+                metrics.widthPixels/2,
+                WindowManager.LayoutParams.WRAP_CONTENT));
     }
 
     @Override
@@ -68,6 +77,7 @@ class AssignmentsAlarmAdapter extends RecyclerView.Adapter<AssignmentsAlarmAdapt
             layout  = (LinearLayout)itemView.findViewById(R.id.assignment_alter_size);
         }
     }
+
     private class AssignmentsAlarmItem{
         private String title;
         private Date date;
@@ -95,6 +105,13 @@ class AssignmentsAlarmAdapter extends RecyclerView.Adapter<AssignmentsAlarmAdapt
 
         void setDate(Date date) {
             this.date = date;
+        }
+    }
+
+    private class OnCustomClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+
         }
     }
 }
