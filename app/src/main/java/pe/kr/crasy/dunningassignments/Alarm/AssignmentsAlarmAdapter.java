@@ -40,10 +40,8 @@ class AssignmentsAlarmAdapter extends RecyclerView.Adapter<AssignmentsAlarmAdapt
         holder.itemView.setBackgroundColor(mItem.get(position).getColor());
         holder.title.setText(mItem.get(position).getTitle());
 
-        Date start = new Date();
-
         Date end = mItem.get(position).getDate();
-        long fin = (end.getTime() - start.getTime())/(24 * 60 * 60 * 1000);
+        long fin = (end.getTime() - new Date().getTime())/86400000;//24 * 60 * 60 * 1000
 
         holder.date.setText(String.valueOf(fin) + "일 남았습니다.");
         DisplayMetrics metrics = holder.itemView.getContext().getResources().getDisplayMetrics();
