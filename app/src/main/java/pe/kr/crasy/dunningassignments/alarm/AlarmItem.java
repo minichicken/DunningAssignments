@@ -3,10 +3,11 @@ package pe.kr.crasy.dunningassignments.alarm;
 import java.util.Date;
 
 /**
+ *
  * Created by maybe on 16. 11. 24.
  */
 
-public class AlarmItem {
+class AlarmItem {
     private String title;
     private Date date;
     private int color;
