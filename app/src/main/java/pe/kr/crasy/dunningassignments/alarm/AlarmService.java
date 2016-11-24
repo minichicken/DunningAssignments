@@ -1,4 +1,4 @@
-package pe.kr.crasy.dunningassignments.Alarm;
+package pe.kr.crasy.dunningassignments.alarm;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -16,13 +16,14 @@ import android.view.WindowManager;
 import java.util.Date;
 
 import pe.kr.crasy.dunningassignments.R;
+import pe.kr.crasy.dunningassignments.RVOnItemClickListener;
 
-public class AssignmentsAlarmService extends Service {
-    WindowManager windowManager;
-    WindowManager.LayoutParams params;
-    View drawView;
+public class AlarmService extends Service {
+    private WindowManager windowManager;
+    private WindowManager.LayoutParams params;
+    private View drawView;
 
-    public AssignmentsAlarmService() {
+    public AlarmService() {
         params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -36,33 +37,19 @@ public class AssignmentsAlarmService extends Service {
         super.onCreate();
         LayoutInflater inflater = (LayoutInflater)getApplicationContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        drawView = inflater.inflate(R.layout.assignments_alter_top, null);
+        drawView = inflater.inflate(R.layout.assignment_alarm_top, null);
         windowManager = (WindowManager)getApplicationContext()
                 .getSystemService(Context.WINDOW_SERVICE);
 
         RecyclerView recyclerView = (RecyclerView)drawView.findViewById(R.id.assignment_alter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(drawView.getContext());
-        AssignmentsAlarmAdapter adapter = new AssignmentsAlarmAdapter();
+        AlarmAdapter adapter = new AlarmAdapter();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
         recyclerView.addOnItemTouchListener(
-                new AssignmentsAlarmOnItemClickListener(
-                        drawView.getContext(),
-                        recyclerView,
-                        new AssignmentsAlarmOnItemClickListener.OnItemClickListener(){
-                            @Override
-                            public void onItemClick(View view, int postion) {
-                                if(drawView.getWindowToken() != null){
-                                    windowManager.removeView(drawView);
-                                }
-                            }
-                            @Override
-                            public void onItemLongClick(View view, int position) {
-
-                            }
-                        }));
+                new RVOnItemClickListener(drawView.getContext(), recyclerView, onItemClickListener));
 
         adapter.addItem("hell", new Date(), "#ffffff");
         adapter.addItem("hell", new Date(), "#000000");
@@ -97,6 +84,21 @@ public class AssignmentsAlarmService extends Service {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+    private RVOnItemClickListener.OnItemClickListener
+            onItemClickListener = new RVOnItemClickListener.OnItemClickListener() {
+        @Override
+        public void onItemClick(View view, int position) {
+            if(drawView.getWindowToken() != null){
+                windowManager.removeView(drawView);
+            }
+        }
+
+        @Override
+        public void onItemLongClick(View view, int position) {
+
+        }
+    };
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override

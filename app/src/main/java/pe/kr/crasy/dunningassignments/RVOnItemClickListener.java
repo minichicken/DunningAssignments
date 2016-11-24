@@ -1,4 +1,4 @@
-package pe.kr.crasy.dunningassignments.Alarm;
+package pe.kr.crasy.dunningassignments;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,13 +7,12 @@ import android.view.MotionEvent;
 import android.view.View;
 
 /**
- *
- * Created by maybe on 16. 11. 23.
+ * Created by maybe on 16. 11. 24.
  */
 
-class AssignmentsAlarmOnItemClickListener implements RecyclerView.OnItemTouchListener {
-    interface OnItemClickListener{
-        void onItemClick(View view, int postion);
+public class RVOnItemClickListener implements RecyclerView.OnItemTouchListener {
+    public interface OnItemClickListener{
+        void onItemClick(View view, int position);
         void onItemLongClick(View view, int position);
     }
 
@@ -21,7 +20,7 @@ class AssignmentsAlarmOnItemClickListener implements RecyclerView.OnItemTouchLis
     private GestureDetector gestureDetector;
 
 
-    AssignmentsAlarmOnItemClickListener(Context context, RecyclerView recyclerView, OnItemClickListener click){
+    public RVOnItemClickListener(Context context, final RecyclerView recyclerView, OnItemClickListener click){
         listener = click;
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener(){
             @Override

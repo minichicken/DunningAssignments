@@ -1,4 +1,4 @@
-package pe.kr.crasy.dunningassignments;
+package pe.kr.crasy.dunningassignments.assignments;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,22 +10,28 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import pe.kr.crasy.dunningassignments.R;
+
 /**
- * Created by maybe on 16. 11. 3.
  *
+ * Created by maybe on 16. 11. 24.
  */
 
-class AssignmentsManagerAdapter
-        extends RecyclerView.Adapter<AssignmentsManagerAdapter.ViewHolder> {
-    private ArrayList<AssignmentManagerItem> mAssignmentsManagerItem = new ArrayList<>();
+public class AssignmentsAdapter
+        extends RecyclerView.Adapter<AssignmentsAdapter.ViewHolder>{
+    private ArrayList<AssignmentsItem> mAssignmentsManagerItem = new ArrayList<>();
 
-    void addItem(Date date, String title, Date deadline, String location){
-        AssignmentManagerItem Item = new AssignmentManagerItem();
+    public void addItem(Date date, String title, Date deadline, String location){
+        AssignmentsItem Item = new AssignmentsItem();
         Item.setDate(date);
         Item.setTitle(title);
         Item.setDeadline(deadline);
         Item.setLocation(location);
         mAssignmentsManagerItem.add(Item);
+    }
+
+    AssignmentsItem getItem(int position){
+        return mAssignmentsManagerItem.get(position);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -45,15 +51,15 @@ class AssignmentsManagerAdapter
     }
 
     @Override
-    public AssignmentsManagerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.assignments_layout, parent, false);
+    public AssignmentsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.assignment_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Date date = mAssignmentsManagerItem.get(position).getDate();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("M.dd");
         holder.assignment_date.setText(simpleDateFormat.format(date));
         simpleDateFormat = new SimpleDateFormat("E요일");
         holder.assignment_day.setText(simpleDateFormat.format(date));
@@ -66,44 +72,5 @@ class AssignmentsManagerAdapter
     @Override
     public int getItemCount() {
         return mAssignmentsManagerItem.size();
-    }
-
-    private class AssignmentManagerItem {
-        private Date date;
-        private String title;
-        private Date deadline;
-        private String location;
-
-        public Date getDate() {
-            return date;
-        }
-
-        public void setDate(Date date) {
-            this.date = date;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public Date getDeadline() {
-            return deadline;
-        }
-
-        public void setDeadline(Date deadline) {
-            this.deadline = deadline;
-        }
-
-        public String getLocation() {
-            return location;
-        }
-
-        public void setLocation(String location) {
-            this.location = location;
-        }
     }
 }

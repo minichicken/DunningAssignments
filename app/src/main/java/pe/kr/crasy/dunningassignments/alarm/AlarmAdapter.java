@@ -1,4 +1,4 @@
-package pe.kr.crasy.dunningassignments.Alarm;
+package pe.kr.crasy.dunningassignments.alarm;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,20 +16,19 @@ import java.util.Date;
 import pe.kr.crasy.dunningassignments.R;
 
 /**
- *
- * Created by maybe on 16. 11. 21.
+ * Created by maybe on 16. 11. 24.
  */
 
-class AssignmentsAlarmAdapter extends RecyclerView.Adapter<AssignmentsAlarmAdapter.ViewHolder> {
+public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder> {
     private ArrayList<AssignmentsAlarmItem> mItem = new ArrayList<>();
     private View.OnClickListener mOnclickListener = new OnCustomClickListener();
 
-    AssignmentsAlarmAdapter() {}
+    AlarmAdapter() {}
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.assignments_alter_top_layout, parent, false);
+                .inflate(R.layout.assignment_alarm_top_layout, parent, false);
         view.setOnClickListener(mOnclickListener);
         return new ViewHolder(view);
     }
