@@ -14,4 +14,6 @@
     <string name="deadline">DeadLine</string>
     <string name="location">Location</string>
     <string name="no_image">이미지가 없습니다</string>
+    <string name="d_date">일 남았습니다.</string>
+    <string name="title_activity_edit">EditActivity</string>
 </resources>

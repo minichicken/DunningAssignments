@@ -1,11 +1,11 @@
 package pe.kr.crasy.dunningassignments.alarm;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,18 +20,12 @@ import pe.kr.crasy.dunningassignments.RVOnItemClickListener;
 
 public class AlarmService extends Service {
     private WindowManager windowManager;
-    private WindowManager.LayoutParams params;
     private View drawView;
+    private BroadcastReceiver receiver;
 
-    public AlarmService() {
-        params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_PHONE,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                PixelFormat.TRANSPARENT);
-    }
+    public AlarmService() {}
 
+    @SuppressLint("InflateParams")
     @Override
     public void onCreate(){
         super.onCreate();
@@ -61,6 +55,9 @@ public class AlarmService extends Service {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+
+        receiver = new AlarmReceiver(drawView, windowManager);
+
         registerReceiver(receiver, intentFilter);
     }
 
@@ -81,7 +78,6 @@ public class AlarmService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -97,25 +93,6 @@ public class AlarmService extends Service {
         @Override
         public void onItemLongClick(View view, int position) {
 
-        }
-    };
-
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-
-            if(action.equals(Intent.ACTION_SCREEN_ON)){
-                if(drawView.getWindowToken() == null){
-                    windowManager.addView(drawView, params);
-                }
-            }
-
-            if(action.equals(Intent.ACTION_SCREEN_OFF)){
-                if(drawView.getWindowToken() == null){
-                    windowManager.addView(drawView, params);
-                }
-            }
         }
     };
 }

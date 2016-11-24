@@ -16,12 +16,12 @@ import java.util.Date;
 import pe.kr.crasy.dunningassignments.R;
 
 /**
+ *
  * Created by maybe on 16. 11. 24.
  */
 
-public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder> {
-    private ArrayList<AssignmentsAlarmItem> mItem = new ArrayList<>();
-    private View.OnClickListener mOnclickListener = new OnCustomClickListener();
+class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder> {
+    private ArrayList<AlarmItem> mItem = new ArrayList<>();
 
     AlarmAdapter() {}
 
@@ -29,7 +29,6 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.assignment_alarm_top_layout, parent, false);
-        view.setOnClickListener(mOnclickListener);
         return new ViewHolder(view);
     }
 
@@ -39,9 +38,9 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder> 
         holder.title.setText(mItem.get(position).getTitle());
 
         Date end = mItem.get(position).getDate();
-        long fin = (end.getTime() - new Date().getTime())/86400000;//24 * 60 * 60 * 1000
-
-        holder.date.setText(String.valueOf(fin) + "일 남았습니다.");
+        long fin = (end.getTime() - new Date().getTime())/86400000; //24 * 60 * 60 * 1000
+        String d_date = String.valueOf(fin) + "일 남았습니다.";
+        holder.date.setText(String.valueOf(d_date));
         DisplayMetrics metrics = holder.itemView.getContext().getResources().getDisplayMetrics();
 
         holder.layout.setLayoutParams(new LinearLayout.LayoutParams(
@@ -55,7 +54,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder> 
     }
 
     void addItem(String title, Date date, String color){
-        AssignmentsAlarmItem item = new AssignmentsAlarmItem();
+        AlarmItem item = new AlarmItem();
         item.setTitle(title);
         item.setDate(date);
         item.setColor(Color.parseColor(color));
@@ -71,43 +70,6 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder> 
             title   = (TextView)itemView.findViewById(R.id.assignment_alter_title);
             date    = (TextView)itemView.findViewById(R.id.assignment_alter_date);
             layout  = (LinearLayout)itemView.findViewById(R.id.assignment_alter_size);
-        }
-    }
-
-    private class AssignmentsAlarmItem{
-        private String title;
-        private Date date;
-        private int color;
-
-        public int getColor() {
-            return color;
-        }
-
-        public void setColor(int color) {
-            this.color = color;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        Date getDate() {
-            return date;
-        }
-
-        void setDate(Date date) {
-            this.date = date;
-        }
-    }
-
-    private class OnCustomClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-
         }
     }
 }

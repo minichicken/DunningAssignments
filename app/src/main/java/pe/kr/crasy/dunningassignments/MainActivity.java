@@ -1,11 +1,14 @@
 package pe.kr.crasy.dunningassignments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,7 +22,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import io.realm.Realm;
 import pe.kr.crasy.dunningassignments.alarm.AlarmService;
@@ -29,8 +34,8 @@ import pe.kr.crasy.dunningassignments.database.People;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Realm realm;
-    private RecyclerView assignmentsView;
     private AssignmentsAdapter assignmentsAdapter;
+    private ActionBar actionbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,11 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.main_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if(getSupportActionBar() != null){
+            actionbar = getSupportActionBar();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM 월 dd일,\n E요일", Locale.getDefault());
+            actionbar.setTitle(dateFormat.format(new Date()));
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(view ->
@@ -57,7 +67,7 @@ public class MainActivity extends AppCompatActivity
 
         RecyclerView.LayoutManager assignmentLayoutManager = new LinearLayoutManager(this);
         assignmentsAdapter = new AssignmentsAdapter();
-        assignmentsView = (RecyclerView)findViewById(R.id.assignments);
+        RecyclerView assignmentsView = (RecyclerView) findViewById(R.id.assignments);
         assignmentsView.setHasFixedSize(true);
         assignmentsView.setLayoutManager(assignmentLayoutManager);
         assignmentsView.setAdapter(assignmentsAdapter);
@@ -66,7 +76,7 @@ public class MainActivity extends AppCompatActivity
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
-        //registerReceiver(timeReceiver, intentFilter);
+        registerReceiver(timeReceiver, intentFilter);
 
         startService(new Intent(this, AlarmService.class));
 
@@ -89,6 +99,24 @@ public class MainActivity extends AppCompatActivity
             person.setAge(14);
 
         });
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if(timeReceiver != null){
+            unregisterReceiver(timeReceiver);
+        }
     }
 
     @Override
@@ -147,6 +175,17 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private BroadcastReceiver timeReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(action.equals(Intent.ACTION_DATE_CHANGED)){
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM 월 dd일,\n E요일", Locale.getDefault());
+                actionbar.setTitle(dateFormat.format(new Date()));
+            }
+        }
+    };
 
     private RVOnItemClickListener.OnItemClickListener
             onItemClickListener = new RVOnItemClickListener.OnItemClickListener() {
