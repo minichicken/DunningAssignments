@@ -7,11 +7,9 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,13 +28,15 @@ import java.util.Locale;
 import io.realm.Realm;
 import pe.kr.crasy.dunningassignments.alarm.AlarmService;
 import pe.kr.crasy.dunningassignments.assignments.AssignmentsAdapter;
-import pe.kr.crasy.dunningassignments.database.People;
+import pe.kr.crasy.dunningassignments.assignments.AssignmentsItem;
+import pe.kr.crasy.dunningassignments.database.Assignments;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Realm realm;
     private AssignmentsAdapter assignmentsAdapter;
     private ActionBar actionbar;
+    private SimpleDateFormat format = new SimpleDateFormat("MM 월 dd일, E요일", Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +48,13 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null){
             actionbar = getSupportActionBar();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM 월 dd일,\n E요일", Locale.getDefault());
-            actionbar.setTitle(dateFormat.format(new Date()));
+            actionbar.setTitle(format.format(new Date()));
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(view ->
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+                startActivity(new Intent(MainActivity.this, EditActivity.class))
+        );
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -74,31 +74,22 @@ public class MainActivity extends AppCompatActivity
         assignmentsView.addOnItemTouchListener(
                 new RVOnItemClickListener(this, assignmentsView, onItemClickListener));
 
+        for(Assignments assignments: realm.where(Assignments.class).findAll()){
+            assignmentsAdapter.addItem(assignments.getTitle(), assignments.getLocation(), assignments.getDeadLine());
+        }
+
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
         registerReceiver(timeReceiver, intentFilter);
 
         startService(new Intent(this, AlarmService.class));
 
-
-        assignmentsAdapter.addItem(new Date(),"hell", new Date(), "world");
-        assignmentsAdapter.addItem(new Date(),"hell", new Date(), "world");
-        assignmentsAdapter.addItem(new Date(),"hell", new Date(), "world");
-        assignmentsAdapter.addItem(new Date(),"hell", new Date(), "world");
-        assignmentsAdapter.addItem(new Date(),"hell", new Date(), "world");
-        assignmentsAdapter.addItem(new Date(),"hell", new Date(), "world");
-
-        for(People people : realm.where(People.class).findAll()){
-            Log.d("ddd", people.getName());
-        }
-        realm.executeTransaction(realm1 -> {
-            // Add a person
-            People person = realm1.createObject(People.class);
-            //person.setId(1);
-            person.setName("Young Person");
-            person.setAge(14);
-
-        });
+        assignmentsAdapter.addItem("hell", "world", new Date());
+        assignmentsAdapter.addItem("hell", "world", new Date());
+        assignmentsAdapter.addItem("hell", "world", new Date());
+        assignmentsAdapter.addItem("hell", "world", new Date());
+        assignmentsAdapter.addItem("hell", "world", new Date());
+        assignmentsAdapter.addItem("hell", "world", new Date());
     }
 
     @Override
@@ -181,8 +172,7 @@ public class MainActivity extends AppCompatActivity
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if(action.equals(Intent.ACTION_DATE_CHANGED)){
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM 월 dd일,\n E요일", Locale.getDefault());
-                actionbar.setTitle(dateFormat.format(new Date()));
+                actionbar.setTitle(format.format(new Date()));
             }
         }
     };
@@ -191,7 +181,8 @@ public class MainActivity extends AppCompatActivity
             onItemClickListener = new RVOnItemClickListener.OnItemClickListener() {
         @Override
         public void onItemClick(View view, int position) {
-
+            AssignmentsItem item = assignmentsAdapter.getItem(position);
+            Toast.makeText(view.getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
         }
 
         @Override

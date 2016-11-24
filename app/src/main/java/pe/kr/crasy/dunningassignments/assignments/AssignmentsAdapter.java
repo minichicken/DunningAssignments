@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import pe.kr.crasy.dunningassignments.R;
 
@@ -21,16 +22,15 @@ public class AssignmentsAdapter
         extends RecyclerView.Adapter<AssignmentsAdapter.ViewHolder>{
     private ArrayList<AssignmentsItem> mAssignmentsManagerItem = new ArrayList<>();
 
-    public void addItem(Date date, String title, Date deadline, String location){
+    public void addItem(String title, String location, Date deadline){
         AssignmentsItem Item = new AssignmentsItem();
-        Item.setDate(date);
         Item.setTitle(title);
-        Item.setDeadline(deadline);
         Item.setLocation(location);
+        Item.setDeadline(deadline);
         mAssignmentsManagerItem.add(Item);
     }
 
-    AssignmentsItem getItem(int position){
+    public AssignmentsItem getItem(int position){
         return mAssignmentsManagerItem.get(position);
     }
 
@@ -58,13 +58,13 @@ public class AssignmentsAdapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Date date = mAssignmentsManagerItem.get(position).getDate();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("M.dd");
+        Date date = mAssignmentsManagerItem.get(position).getDeadline();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("M.dd", Locale.getDefault());
         holder.assignment_date.setText(simpleDateFormat.format(date));
-        simpleDateFormat = new SimpleDateFormat("E요일");
+        simpleDateFormat = new SimpleDateFormat("E요일", Locale.getDefault());
         holder.assignment_day.setText(simpleDateFormat.format(date));
         holder.assignment_title.setText(mAssignmentsManagerItem.get(position).getTitle());
-        simpleDateFormat = new SimpleDateFormat("M월 W째주 E요일 dd일");
+        simpleDateFormat = new SimpleDateFormat("M월 W째주 E요일 dd일", Locale.getDefault());
         holder.assignment_deadline.setText(simpleDateFormat.format(mAssignmentsManagerItem.get(position).getDeadline()));
         holder.assignment_location.setText(mAssignmentsManagerItem.get(position).getLocation());
     }

@@ -7,19 +7,10 @@ package pe.kr.crasy.dunningassignments.assignments;
 
 import java.util.Date;
 
-class AssignmentsItem {
-    private Date date;
+public class AssignmentsItem {
     private String title;
     private Date deadline;
     private String location;
-
-    Date getDate() {
-        return date;
-    }
-
-    void setDate(Date date) {
-        this.date = date;
-    }
 
     public String getTitle() {
         return title;
