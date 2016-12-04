@@ -14,10 +14,10 @@ import io.realm.annotations.RealmClass;
 public class Assignments extends RealmObject {
     private String title;
     private String location;
-    private Date startLine;
+    private Date   startLine;
     private Date   deadLine;
-    private String metaData;
     private RealmList<People> people;
+    private String metaData;
 
     public String getTitle() {
         return title;
