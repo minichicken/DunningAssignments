@@ -12,6 +12,7 @@ import android.view.View;
  */
 
 public class RVOnItemClickListener implements RecyclerView.OnItemTouchListener {
+
     public interface OnItemClickListener{
         void onItemClick(View view, int position);
         void onItemLongClick(View view, int position);
@@ -19,7 +20,6 @@ public class RVOnItemClickListener implements RecyclerView.OnItemTouchListener {
 
     private OnItemClickListener listener;
     private GestureDetector gestureDetector;
-
 
     public RVOnItemClickListener(Context context, final RecyclerView recyclerView, OnItemClickListener click){
         listener = click;
@@ -37,6 +37,7 @@ public class RVOnItemClickListener implements RecyclerView.OnItemTouchListener {
             }
         });
     }
+
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
         View view = rv.findChildViewUnder(e.getX(), e.getY());
@@ -48,12 +49,7 @@ public class RVOnItemClickListener implements RecyclerView.OnItemTouchListener {
     }
 
     @Override
-    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-    }
-
+    public void onTouchEvent(RecyclerView rv, MotionEvent e) {}
     @Override
-    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-    }
+    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
 }

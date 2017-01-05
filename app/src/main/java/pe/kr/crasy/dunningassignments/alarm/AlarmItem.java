@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by maybe on 16. 11. 24.
  */
 
-class AlarmItem {
+public class AlarmItem {
     private String title;
     private Date date;
     private int color;
@@ -28,11 +28,11 @@ class AlarmItem {
         this.title = title;
     }
 
-    Date getDate() {
+    public Date getDate() {
         return date;
     }
 
-    void setDate(Date date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }

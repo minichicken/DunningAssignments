@@ -1,26 +1,18 @@
-package pe.kr.crasy.dunningassignments.database;
+package pe.kr.crasy.dunningassignments.Edit;
 
 import java.util.Date;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.RealmClass;
-import io.realm.annotations.Required;
-
 /**
  *
- * Created by maybe on 16. 11. 24.
+ * Created by maybe on 16. 12. 29.
  */
-public class Assignments extends RealmObject {
-    @Required
+
+public class EditModel {
     private String title;
-    @Required
     private String location;
-    private Date   startLine;
-    @Required
-    private Date   deadLine;
-    private RealmList<People> people;
     private String metaData;
+    private Date   startLine;
+    private Date   deadLine;
 
     public String getTitle() {
         return title;
@@ -38,6 +30,14 @@ public class Assignments extends RealmObject {
         this.location = location;
     }
 
+    public String getMetaData() {
+        return metaData;
+    }
+
+    public void setMetaData(String metaData) {
+        this.metaData = metaData;
+    }
+
     public Date getStartLine() {
         return startLine;
     }
@@ -52,21 +52,5 @@ public class Assignments extends RealmObject {
 
     public void setDeadLine(Date deadLine) {
         this.deadLine = deadLine;
-    }
-
-    public RealmList<People> getPeople() {
-        return people;
-    }
-
-    public void setPeople(RealmList<People> people) {
-        this.people = people;
-    }
-
-    public String getMetaData() {
-        return metaData;
-    }
-
-    public void setMetaData(String metaData) {
-        this.metaData = metaData;
     }
 }

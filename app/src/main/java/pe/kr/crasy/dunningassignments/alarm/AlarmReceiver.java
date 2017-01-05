@@ -14,12 +14,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     public AlarmReceiver(View view, WindowManager winManager) {
         this.drawView = view;
         this.windowManager = winManager;
-        params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_PHONE,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                PixelFormat.TRANSPARENT);
+
     }
 
     @Override

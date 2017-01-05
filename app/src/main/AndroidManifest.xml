@@ -38,7 +38,7 @@
         </receiver>
 
         <activity
-            android:name=".EditActivity"
+            android:name=".Edit.EditActivity"
             android:label="@string/title_activity_edit"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity

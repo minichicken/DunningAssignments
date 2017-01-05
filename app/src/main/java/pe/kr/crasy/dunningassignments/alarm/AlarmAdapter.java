@@ -20,10 +20,38 @@ import pe.kr.crasy.dunningassignments.R;
  * Created by maybe on 16. 11. 24.
  */
 
-class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder> {
+public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder> {
     private ArrayList<AlarmItem> mItem = new ArrayList<>();
 
-    AlarmAdapter() {}
+    public void addItem(String title, Date date, String color){
+        AlarmItem item = new AlarmItem();
+        item.setTitle(title);
+        item.setDate(date);
+        item.setColor(Color.parseColor(color));
+        mItem.add(item);
+    }
+
+    public void clear(){
+        int size = mItem.size();
+        if(size > 0){
+            for(int i = 0; i < size; i++){
+                mItem.remove(0);
+            }
+            this.notifyItemRangeRemoved(0, size);
+        }
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder{
+        TextView title;
+        TextView date;
+        LinearLayout layout;
+        ViewHolder(View itemView) {
+            super(itemView);
+            title   = (TextView)itemView.findViewById(R.id.assignment_alter_title);
+            date    = (TextView)itemView.findViewById(R.id.assignment_alter_date);
+            layout  = (LinearLayout)itemView.findViewById(R.id.assignment_alter_size);
+        }
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -51,25 +79,5 @@ class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return mItem.size();
-    }
-
-    void addItem(String title, Date date, String color){
-        AlarmItem item = new AlarmItem();
-        item.setTitle(title);
-        item.setDate(date);
-        item.setColor(Color.parseColor(color));
-        mItem.add(item);
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder{
-        TextView title;
-        TextView date;
-        LinearLayout layout;
-        ViewHolder(View itemView) {
-            super(itemView);
-            title   = (TextView)itemView.findViewById(R.id.assignment_alter_title);
-            date    = (TextView)itemView.findViewById(R.id.assignment_alter_date);
-            layout  = (LinearLayout)itemView.findViewById(R.id.assignment_alter_size);
-        }
     }
 }

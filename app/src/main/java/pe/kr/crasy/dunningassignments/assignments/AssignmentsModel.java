@@ -1,13 +1,13 @@
 package pe.kr.crasy.dunningassignments.assignments;
 
+import java.util.Date;
+
 /**
  *
  * Created by maybe on 16. 11. 24.
  */
 
-import java.util.Date;
-
-public class AssignmentsItem {
+public class AssignmentsModel {
     private String title;
     private Date deadline;
     private String location;
@@ -20,19 +20,19 @@ public class AssignmentsItem {
         this.title = title;
     }
 
-    Date getDeadline() {
+    public Date getDeadline() {
         return deadline;
     }
 
-    void setDeadline(Date deadline) {
+    public void setDeadline(Date deadline) {
         this.deadline = deadline;
     }
 
-    String getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    void setLocation(String location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 }

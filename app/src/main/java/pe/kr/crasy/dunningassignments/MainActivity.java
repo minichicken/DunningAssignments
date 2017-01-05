@@ -26,24 +26,26 @@ import java.util.Locale;
 
 import io.realm.Realm;
 
+import pe.kr.crasy.dunningassignments.Edit.EditActivity;
 import pe.kr.crasy.dunningassignments.alarm.AlarmService;
 import pe.kr.crasy.dunningassignments.assignments.AssignmentsAdapter;
-import pe.kr.crasy.dunningassignments.assignments.AssignmentsItem;
+import pe.kr.crasy.dunningassignments.assignments.AssignmentsModel;
 import pe.kr.crasy.dunningassignments.database.Assignments;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Realm realm;
-    private AssignmentsAdapter assignmentsAdapter;
     private ActionBar actionbar;
+    private IntentFilter intentFilter;
+    private AssignmentsAdapter adapter;
     private SimpleDateFormat format = new SimpleDateFormat("MM 월 dd일, E요일", Locale.getDefault());
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Realm.init(getApplicationContext());
         realm = Realm.getDefaultInstance();
         setContentView(R.layout.main_activity);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null){
@@ -65,43 +67,47 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        RecyclerView.LayoutManager assignmentLayoutManager = new LinearLayoutManager(this);
-        assignmentsAdapter = new AssignmentsAdapter();
-        RecyclerView assignmentsView = (RecyclerView) findViewById(R.id.assignments);
-        assignmentsView.setHasFixedSize(true);
-        assignmentsView.setLayoutManager(assignmentLayoutManager);
-        assignmentsView.setAdapter(assignmentsAdapter);
-        assignmentsView.addOnItemTouchListener(
-                new RVOnItemClickListener(this, assignmentsView, onItemClickListener));
-        IntentFilter intentFilter = new IntentFilter();
+        adapter = new AssignmentsAdapter();
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.assignments);
+        RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addOnItemTouchListener(
+                new RVOnItemClickListener(this, recyclerView, onItemClickListener));
+
+        intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
         registerReceiver(timeReceiver, intentFilter);
 
         startService(new Intent(this, AlarmService.class));
     }
 
+
     @Override
     public void onPause(){
         super.onPause();
+        unregisterReceiver(timeReceiver);
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        for(Assignments assignments: realm.where(Assignments.class).findAll()){
-            assignmentsAdapter.addItem(
-                    assignments.getTitle(),
-                    assignments.getLocation(),
-                    assignments.getDeadLine());
+        registerReceiver(timeReceiver, intentFilter);
+        adapter.clear();
+        for(Assignments assignments : realm.where(Assignments.class).findAll()){
+            AssignmentsModel model = new AssignmentsModel();
+            model.setTitle(assignments.getTitle());
+            model.setDeadline(assignments.getDeadLine());
+            model.setLocation(assignments.getLocation());
+            adapter.addItem(model);
         }
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
-        if(timeReceiver != null){
-            unregisterReceiver(timeReceiver);
-        }
+        realm.close();
     }
 
     @Override
@@ -139,7 +145,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private BroadcastReceiver timeReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver timeReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -153,13 +159,13 @@ public class MainActivity extends AppCompatActivity
             onItemClickListener = new RVOnItemClickListener.OnItemClickListener() {
         @Override
         public void onItemClick(View view, int position) {
-            AssignmentsItem item = assignmentsAdapter.getItem(position);
+            AssignmentsModel item = adapter.getItem(position);
             Toast.makeText(view.getContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onItemLongClick(View view, int position) {
-
+            //show dialog message to remove
         }
     };
 }

@@ -20,18 +20,24 @@ import pe.kr.crasy.dunningassignments.R;
 
 public class AssignmentsAdapter
         extends RecyclerView.Adapter<AssignmentsAdapter.ViewHolder>{
-    private ArrayList<AssignmentsItem> mAssignmentsManagerItem = new ArrayList<>();
+    private ArrayList<AssignmentsModel> mAssignmentsManagerItem = new ArrayList<>();
 
-    public void addItem(String title, String location, Date deadline){
-        AssignmentsItem Item = new AssignmentsItem();
-        Item.setTitle(title);
-        Item.setLocation(location);
-        Item.setDeadline(deadline);
-        mAssignmentsManagerItem.add(Item);
+    public void addItem(AssignmentsModel model){
+        mAssignmentsManagerItem.add(model);
     }
 
-    public AssignmentsItem getItem(int position){
+    public AssignmentsModel getItem(int position){
         return mAssignmentsManagerItem.get(position);
+    }
+
+    public void clear(){
+        int size = mAssignmentsManagerItem.size();
+        if(size > 0){
+            for(int i = 0; i < size ; i++){
+                mAssignmentsManagerItem.remove(0);
+            }
+            this.notifyItemRangeRemoved(0, size);
+        }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
