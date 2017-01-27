@@ -88,4 +88,6 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+
+    <string name="add_new_member">add new Member</string>
 </resources>
